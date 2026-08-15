@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/* Design tokens bridged to CSS for Tailwind/body use (bookstore-ui). */
+:root {
+  --bs-primary: #b45309;
+  --bs-success: #16a34a;
+  --bs-warning: #d97706;
+  --bs-error: #dc2626;
+  --bs-info: #0284c7;
+  --bs-background: #f7f6f4;
+  --bs-surface: #ffffff;
+  --bs-border: #e6e2dc;
+  --bs-text: #1f1e1d;
+  --bs-text-secondary: #6b6865;
+  --bs-text-disabled: #b5b1ac;
+}
+
+@theme inline {
+  --color-background: var(--bs-background);
+  --color-surface: var(--bs-surface);
+  --color-border: var(--bs-border);
+  --color-primary: var(--bs-primary);
+  --color-text: var(--bs-text);
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background: var(--bs-background);
+  color: var(--bs-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Money/quantity/KPI display: aligned digits (bookstore-ui). */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
