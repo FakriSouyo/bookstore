@@ -1,37 +1,353 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-/* Design tokens bridged to CSS for Tailwind/body use (bookstore-ui). */
+/* ------------------------------------------------------------------ */
+/* Design tokens (shadcn CSS variables, NEFO/sensory-ui language)     */
+/* Blue-first (#1784cb), light blue page (#f6faff), thin ring borders  */
+/* (#cfe4f5), deep navy text (#0d1b2a), SQUARE surfaces (radius 0).   */
+/* ------------------------------------------------------------------ */
 :root {
-  --bs-primary: #b45309;
-  --bs-success: #16a34a;
-  --bs-warning: #d97706;
-  --bs-error: #dc2626;
-  --bs-info: #0284c7;
-  --bs-background: #f7f6f4;
-  --bs-surface: #ffffff;
-  --bs-border: #e6e2dc;
-  --bs-text: #1f1e1d;
-  --bs-text-secondary: #6b6865;
-  --bs-text-disabled: #b5b1ac;
+  --radius: 0px;
+
+  --background: #f6faff;
+  --foreground: #0d1b2a;
+
+  --card: #ffffff;
+  --card-foreground: #0d1b2a;
+
+  --popover: #ffffff;
+  --popover-foreground: #0d1b2a;
+
+  --primary: #1784cb;
+  --primary-foreground: #ffffff;
+
+  --secondary: #eaf6fe;
+  --secondary-foreground: #0f6ca5;
+
+  --muted: #f1f8fe;
+  --muted-foreground: #5b6b82;
+
+  --accent: #eaf6fe;
+  --accent-foreground: #0f6ca5;
+
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  --border: #cfe4f5;
+  --input: #cfe4f5;
+  --ring: #1784cb;
+
+  /* Extended status colors (bookstore StatusTag). */
+  --success: #16a34a;
+  --warning: #d97706;
+  --info: #1784cb;
 }
 
 @theme inline {
-  --color-background: var(--bs-background);
-  --color-surface: var(--bs-surface);
-  --color-border: var(--bs-border);
-  --color-primary: var(--bs-primary);
-  --color-text: var(--bs-text);
-  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+  --radius-xl: var(--radius);
+
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
 }
 
-body {
-  background: var(--bs-background);
-  color: var(--bs-text);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
 }
 
-/* Money/quantity/KPI display: aligned digits (bookstore-ui). */
+/* Money/quantity/KPI display: aligned digits. */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+/* Slimmer scrollbars for a cleaner feel. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+/* ------------------------------------------------------------------ */
+/* NEFO-inspired details (ref: nefo-online)                          */
+/* ------------------------------------------------------------------ */
+
+/* Micro-label: uppercase mono, wide tracking (sensory-label style). */
+.u-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* ------------------------------------------------------------------ */
+/* Route loading skeletons (pure CSS)                                 */
+/* ------------------------------------------------------------------ */
+
+.skel-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.skel-bar {
+  border-radius: 6px;
+  background: linear-gradient(90deg, #eef5fc 25%, #f8fbff 45%, #eef5fc 65%);
+  background-size: 300% 100%;
+  animation: skel-shimmer 1.3s ease-in-out infinite;
+}
+
+@keyframes skel-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Navigation (sidebar / bottom nav)                                  */
+/* ------------------------------------------------------------------ */
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: 13.5px;
+  font-weight: 500;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-item:hover {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+.nav-item.active {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  font-weight: 600;
+}
+
+.nav-item svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.nav-group {
+  padding: 0 10px;
+  margin-bottom: 18px;
+}
+
+.nav-group-label {
+  display: block;
+  margin: 0 12px 6px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  opacity: 0.7;
+}
+
+.nav-scroll {
+  /* min-height: 0 is required for overflow-y:auto to kick in on a flex child
+     (otherwise the nav grows taller than the 100vh sider and gets clipped
+     by the sider's overflow:hidden with no way to scroll). */
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 4px 8px 12px;
+}
+
+.nav-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Collapsed (icon-only) sidebar */
+.nav-scroll.collapsed {
+  padding: 4px 6px 12px;
+}
+
+.nav-scroll.collapsed .nav-group {
+  padding: 0 2px;
+  margin-bottom: 10px;
+}
+
+.nav-item.collapsed {
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.nav-item.collapsed svg {
+  width: 17px;
+  height: 17px;
+}
+
+.nav-item.collapsed.active {
+  background: var(--accent);
+}
+
+.nav-item .nav-item-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Bottom nav pill (mobile) */
+.bottom-nav-btn {
+  flex: 1;
+  height: 54px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: var(--muted-foreground);
+  font-family: inherit;
+  transition: color 0.15s ease;
+}
+
+.bottom-nav-btn .bn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 26px;
+  border-radius: 999px;
+  font-size: 17px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.bottom-nav-btn.active {
+  color: var(--accent-foreground);
+}
+
+.bottom-nav-btn.active .bn-icon {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+.bottom-nav-btn .bn-label {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Center POS action button (mobile) — raised pill above the bar */
+.bottom-nav-fab {
+  position: relative;
+  top: -16px;
+  flex: 0 0 62px;
+  height: 62px;
+  margin: 0 2px;
+  border: 4px solid var(--background);
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(23, 132, 203, 0.35);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.bottom-nav-fab:active {
+  transform: translateY(1px);
+}
+
+.bottom-nav-fab.active {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.bottom-nav-fab .bn-fab-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.bottom-nav-fab .bn-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* Header */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.avatar-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Sticky action area (mobile forms/tables) */
+.sticky-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  padding: 10px 12px;
+  margin: 0 -12px -12px;
 }

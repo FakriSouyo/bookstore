@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored third-party code:
+    "sensory-ui/**",
+    "lib/sensory-ui/**",
+    "components/ui/sensory-ui/**",
   ]),
 ]);
 
